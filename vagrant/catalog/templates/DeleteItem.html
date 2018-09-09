@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='header.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='sidebar.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class="header">
+        <a href="/" class="logo">Catalog Application</a>
+        <div class="header-right">
+            <a class="active" href="/">Home</a>
+            {% if username in login_session %}
+            <a class="active" href="/gdisconnect">Logout</a>
+            {% else %}
+            <a class="active" href="/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Menu
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_for('AddCategory')}}">Add Category</a>
+                </li>
+                <li>
+                    <a href="{{url_for('AddItems')}}">Add Items</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <!--MESSAGE FLASHING EXAMPLE -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                <ul>
+                    {% for message in messages %}
+                    <li><strong>{{message}}</strong></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <h1> Are you sure you want to delete {{item.title}}? </h1>
+
+                        <form action="{{ url_for('DeleteItems', categoryname = item.categoryName, itemname = item.title)}}"
+                            method='post'>
+                            <input type='submit' , value='Delete'>
+                        </form>
+                        <a href="{{ url_for('ItemDetail', ccategoryName=item.categoryName, item=item.title)}}"> Cancel
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+
+
+</body>
+
+</html>
